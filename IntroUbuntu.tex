@@ -21,7 +21,7 @@
 \setWorkshopVenue{Adelaide, South Australia}
 \setWorkshopDate{\today}
 \setWorkshopAuthor{Steve Pederson\\
-Bioinformatics Centre\\
+Bioinformatics Hub\\
 University Of Adelaide}
 
 
@@ -91,16 +91,16 @@ An optional advanced section for those progressing very rapidly or to be used fo
 \section{Computer Setup}
 \begin{information}
 We will all be working on our own computers today, and will be accessing Virtual Machines running the Ubuntu operating system on the Nectar Research Cloud (\url{http://nectar.org.au/}).
-The software client NoMachine (\url{https://www.nomachine.com/}), which you will have already installed, enables us to access these machines in a familiar Desktop style, even though the majority of our time will be spent within the terminal. \\
+The software client No Machine (\url{https://www.nomachine.com/}), which you will have already installed, enables us to access these machines in a familiar Desktop style, even though the majority of our time will be spent within the terminal. \\
 
-NoMachine session files will be provided to each attendee which have been pre-configured to enable easy access to these machines.
+No Machine session files will be provided to each attendee which have been pre-configured to enable easy access to these machines.
 These machines are effectively dual-core machine with 8GB of RAM \& 70GB of hard drive space.
 Whilst relatively small, this will be more than enough to become
 familiar with the important concepts for the day.
 To begin today's session, simply click (or double-click) on the
-NoMachine session file that you have been given.
+No Machine session file that you have been given.
 The desktop from the Virtual Machine (VM) that you have connected to will appear on the
-NoMachine client. \\
+No Machine client. \\
 \end{information}
 
 \begin{figure}[h!]
@@ -285,7 +285,7 @@ or \\
 
 \begin{note}
 Notice that there are two entries in the \texttt{/home} directory. 
-One is your home directory (\texttt{/home/trainee}), whilst the other is the default home directory that came with the VM (\texttt{/home/ubuntu}) before we setup your home directory.
+One is your home directory (\texttt{/home/trainee}), whilst the other is the default home directory that came with the VM (\texttt{/home/ubuntu}) before we set up your home directory.
 The directory \texttt{/home} actually contains the home directories for all users, hence why there is a \texttt{/home} directory that sits one level above your own home directory.
 Also note that if we ever refer to this directory, we will write it as \texttt{/home}, whereas your personal home directory is referred to without the preceding forward-slash, and will also be written in normal text font instead of the font we specifically use for code. \\
 \end{note}
@@ -838,17 +838,6 @@ ls -lh /usr/bin | less
 \end{lstlisting}
 Page through the output until you get bored, then hit \texttt{q} to quit.
 
-\begin{questions}
-Earlier we estimated the number of sequences in a file by counting the number of lines \& dividing by four.
-Could you think of an easier way using pipe redirection? \\
-\begin{answer}
-We could extract the sequence identifiers \& redirect that to a line count.\\
-\texttt{grep -E `\^{}@.+_1\$' \~{}/firstname/RADSeqReads1.fq | wc -l} \\
-This should give 2500 as the result, although the use of @ as a valid
-quality score can be problematic.
-\end{answer}
-\end{questions}
-
 \section{Sending Output To A File}
 \begin{information}
 So far, the only output we have seen has been in the terminal, which is known as the \textit{standard output}, or \textit{stdout} for short.
@@ -856,7 +845,7 @@ Similar to the pipe command, we can redirect the output of a command to a file i
 \end{information}
 
 \begin{steps}
-To collect a list of the sequence identifiers in our set of RADSeqReads \& write these to a file, we could use the command as above, but instead of directing the output to the terminal, we could write this to a file.
+To collect a list of the sequence identifiers in our set of RAD-seq reads \& write these to a file, we could use the command as above, but instead of directing the output to the terminal, we could write this to a file.
 \end{steps}
 \begin{lstlisting}
 grep -E '^@.+_1' ~/firstname/RADSeqReads1.fq > SeqIDs.txt
@@ -905,7 +894,7 @@ The standard arithmetic processes like addition, subtraction, division \& multip
 
 \section{sed: The Stream Editor}
 \begin{information}
-One very useful command in the terminal is \texttt{sed}, which is short for \textit{stream editor}.
+One very useful command in the terminal is \texttt{sed}, which is short for \textit{\underline{s}tream \underline{ed}itor}.
 Instead of the \texttt{man} page for \texttt{sed} the \texttt{info sed} page is larger but a little easier to digest.
 This is a very powerful command which can be a little overwhelming at first.
 If using this for your own scripts \& you can't figure something out, remember ``Google is your friend'' \& sites like \url{www.stackoverflow.com} are full of people wrestling with similar problems to you.
@@ -941,13 +930,17 @@ It only replaced the first instance of day and left the second.  You can make it
 echo Sundayday | sed 's/day/night/g' 
 \end{lstlisting}
 You can `capture' parts of the pattern in parentheses and access that in the second part of the regular expression (what you are switching to) using \textbackslash 1, \textbackslash 2, etc., to denoted the number of the captured string.
-If you want to match `ATGNNNTGA', where N is any base, and replace those three bases with an expanded repeat of them', you could do the following where we capture the undefined string between \texttt{ATG} \& \texttt{GTA}, and expand it: \\
+If you want to match `ATGNNNTGA', where N is any base, and just output these three bases you could try the following
+\begin{lstlisting}
+echo 'ATGCCAGTA' | sed -r 's/ATG(.{3})GTA/\1/g'
+\end{lstlisting}
+Or if we needed to replace those three bases with an expanded repeat of them, you could do the following where we capture the undefined string between \texttt{ATG} \& \texttt{GTA}, and expand it: \\
 \begin{lstlisting}
 echo 'ATGCCAGTA' | sed -r 's/ATG(.{3})GTA/ATG\1\1\1GTA/g'
 \end{lstlisting}
 The \textbackslash 1 take the contents of the first parenthesis and uses it in the substitution, even though you don't know what the bases are.
-Note that the `-r' option was set for this, which turns on extended regular expression capabilities.
-This can be a powerful tool \& multiple parentheses can be used: \\
+Note that the `-r' option was set for these operations, which turns on extended regular expression capabilities.
+This can be a powerful tool \& multiple parentheses can also be used: \\
 \begin{lstlisting}
 echo 'ATGCCAGTA' | sed -r 's/(ATG)(.{3})(GTA)/\3\2\2\1/g'
 \end{lstlisting}
@@ -990,6 +983,12 @@ How could we restrict the output to just the first 10 identifiers? \\
 We could pipe the output to another \texttt{sed} command or  to head.\\
 \texttt{sed -n `1\~{}4p' RADSeqReads1.fq | sed -n `1,10 p'} \\
 \texttt{sed -n `1\~{}4p' RADSeqReads1.fq | head -n10} \\
+\end{answer}
+
+This also gives us another way of counting the reads in the file.
+Try to think of a way of doing this.
+\begin{answer}
+\texttt{sed -n '1\~{}4p' RADSeqReads1.fq | wc -l} \\
 \end{answer}
 \end{questions}
 
@@ -1045,29 +1044,47 @@ To count the non-header lines you could try several things:\\
 or\\
 \texttt{grep -c `\^{}[\^{}\#]' NC_015214.gff} \\
 \end{answer}
+
 \end{questions}
 
-\begin{advanced}
+\begin{bonus}
 As mentioned above, this file contains multiple features such as \textit{regions}, \textit{genes}, \textit{CDSs}, \textit{exons} or \textit{tRNAs}.
 If we wanted to find how many regions are annotated in this file we could use the processes we've learned above: \\
 \texttt{grep -c `region' NC_015214.gff} \\
 
-If we wanted to count how many genes are annotated, the first idea we might have would be to do something similar using a search for the pattern \texttt{'gene'}.
-Try it \& you will notice immediately that adding the two numbers will give you a greater number than the number of features. \\
+If we wanted to count how many genes are annotated, the first idea we might have would be to do something similar using a search for the pattern \texttt{`gene'}. \\
 \begin{questions}
-What is causing this problem \& how could we get around it? \\
+Do you think this is the number of genes?
+Try searching for the number of coding DNA sequences using the same approach (i.e. CDS) \& then add the two numbers?
+Is this more than the total number of features we found earlier?
+Can you think of a way around this using regular expressions?
 \begin{answer}
 Note that some of the occurrences of the word \textit{gene} appears in many lines which are not genes.
 We need to restrict the search to one of the tab-separated fields by including a white-space character in the search.
 The command:\\
 \texttt{grep -En `\textbackslash sgene\textbackslash s' NC_015214.gff | wc -l} \\
 will give a much different result as now we are searching for the word gene surrounded by white-space.
-This is good time to mention that just because we are looking for something in one field, doesn't mean it won't appear in another field \& mess up our results.
-Alternatively, we could have cut the third field \& counted the entries of the word gene: \\
-\texttt{cut -f3 NC_015214.gff | grep -c `gene'}
 \end{answer}
+
+Alternatively, there is a command \texttt{cut} available.
+Call the manual page (\texttt{man cut}) and inspect the option \texttt{-f}.
+The information about the types of features annotated is in the third field.
+Try to think of a way of searching this field alone.
+\begin{answer}
+\texttt{cut -f3 NC_015214.gff | grep -c `gene'}
+Or even more accurately
+\texttt{egrep -v '\^{}\#' NC_015214.gff | cut -f3 | egrep -c `gene'}
+although it gives the same results in this instance
+\end{answer}
+
+A similar question to a few pages back would be how many \textit{types} of features are in this file?
+The commands \texttt{cut}, along with \texttt{sort} and \texttt{uniq} may prove to be useful when answering this
+\begin{answer}
+\texttt{egrep -v '\^{}\#' NC_015214.gff | cut -f3 | sort | uniq | wc -l}
+\end{answer}
+
 \end{questions}
-\end{advanced}
+\end{bonus}
 
 \begin{information}
 The file we have downloaded was an uncompressed text file. 
@@ -1103,6 +1120,11 @@ Note that the value of the variable `i' was \textit{prefaced by the dollar sign 
 This is how the bash shell knows it is a variable, not the letter `i'.}
 The command \texttt{done} then finished the \texttt{do} command.
 All commands like \texttt{do}, \texttt{if} or \texttt{case} have completing statements, which respectively are \texttt{done}, \texttt{fi} \& \texttt{esac}.
+
+An important concept which was glossed over in the previous paragraph is that of a \textit{variable}.
+These are essentially just `\textit{placeholders}' which have a value that can change.
+In the above loop, the same operation was performed on the variable \texttt{i}, but the value changed from 1 to 2 to 3.
+Variables in shell scripts can hold numbers or text strings and don't have to be formally defined as in some other languages.
 \end{information}
 
 \subsubsection{If Statements}
@@ -1140,8 +1162,14 @@ You can specify values from different columns of the file as \$1, \$2, etc., (or
 \end{information}
 
 \begin{steps}
-We have that *.gff file and we've already looked at it at little, so let's pull out particular features!
-Change into the appropriate directory \& enter
+We have that *.gff file and we've already looked at it at little, so let's pull out some particular features!
+Make your terminal as wide as the screen, then change into the appropriate directory \& enter
+\begin{lstlisting}
+awk '{if  ($3=="rRNA")  print $0}' NC_015214.gff
+\end{lstlisting}
+Here we've specified that the third field must be an rRNA, so this will give us all of the ribosomal RNAs annotated in the file. \\
+
+We could make it a little more complex and just look for genes in a given region
 \begin{lstlisting}
 awk '{if ( ($3=="gene") && ($4 > 10000) && ($4 < 20000) ) print $0}' NC_015214.gff
 \end{lstlisting}
@@ -1149,7 +1177,7 @@ awk '{if ( ($3=="gene") && ($4 > 10000) && ($4 < 20000) ) print $0}' NC_015214.g
 \begin{note}
 In the above code, \texttt{\$3==''gene''} asks for the entry in the third field to be ``gene.''
 The next two fragments request for the values in the fourth field (i.e. \$4) to be between 10000 \& 20000.
-Thus we have found all the features annotate as genes in a 10000bp region of this genome.
+Thus we have found all the features annotate as genes in a 10,000bp region of this genome.
 Notice that each these three commands were enclosed in a pair of brackets within an outer pair of brackets.
 This gave a command of the form: \\
 \texttt{( (Condition1) \&\& (Condition2) \&\& (Condition3) )} \\
@@ -1169,6 +1197,23 @@ awk '{if (($5 - $4 > 1000) && ($3 == "gene")) print $1, $2, $4, $5, $9}' NC_0152
 \end{lstlisting}
 \end{steps}
 
+\begin{advanced}
+The command \texttt{awk} has a pretty serious set of in-built commands which can be used in the code sections as above.
+Although it looks a little overwhelming, there is a detailed page \url{http://www.grymoire.com/Unix/Awk.html} which gives a rundown on the full capabilities of the language.
+One command that we may find helpful is \texttt{length}, which counts the number of characters in a line. \\
+
+In your \texttt{trainingData} directory you'll find another file \texttt{seqData.fastq}.
+This is a small set of reads from some mRNA pulled down by Immunoprecipitation, and they've been processed to have varying lengths.
+
+\begin{questions}
+Can you think of a way to combine \texttt{sed} and \texttt{awk} to create a new file \texttt{lengths.txt} which contains the length of every read in the file \texttt{seqData.fastq}?
+\end{questions}
+\begin{answer}}
+\texttt{sed -n `2\~{}4p' seqData.fastq | awk `\{print length(\$1)\}' > lengths.txt}
+\end{answer}
+\end{advanced}
+
+
 \section{Shell Scripts}
 Now that we've been through just some of the concepts \& tools we can use when writing scripts, it's time to tackle one of our own where we can bring it all together.
 
@@ -1185,23 +1230,125 @@ As a string this looks like:\\
 \begin{note}
 The hash symbol generally functions as a comment character in scripts.
 Sometimes we can include lines in a script to remind ourselves what we're trying to do, and we can preface these with the hash to ensure the interpreter doesn't try to run them.
-It's presence as a comment here, followed by the exclamation mark, is specifically looked for by the interpreter, but beyond this comment lines are generally ignored by scripts \& programs.
+It's presence as a comment here, followed by the exclamation mark, is specifically looked for by the interpreter but beyond this specific occurrence, comment lines are generally ignored by scripts \& programs.
 \end{note}
 
 \subsection{An Example Script}
-The following is a script which will extract only the CDS features from the .gff file we have been working with, and export them to a separate file.
-Look through each line carefully \& make write down your understanding of what each line is asking the program to do.
+Let's now look at some simple scripts.
+These are really just examples of some useful things you can do \& may not really be the best scripts from a technical perspective.
+Hopefully they give you some pointers so you can get going
 
 \begin{warning}
 Don't try to enter these commands directly in the terminal!!!
 They are designed to be placed in a script, which we will do in a minute.
 \end{warning}
 
+\clearpage
+\begin{lstlisting}
+#!/bin/bash
+FILE=$1
+LENGTHS=$(sed -n '2~4p' ${FILE} | awk '{print length($1)}' | sort | uniq)
+
+echo -e "Read length\tTotal Number"
+
+for l in ${LENGTHS}
+do
+	COUNT=$(sed -n '2~4p' ${FILE} | awk '{print length($1)}' | grep -c ${l})
+	echo -e "${l}\t${COUNT}" 
+done
+\end{lstlisting}
+
+\begin{information}
+Note that in the above script every time the value of a variable was used, it was prefaced by the \$ symbol, and the name was enclosed in curly brackets.
+The \$ symbol is required to identify a variable, but the brackets are just a personal habit to make identification of variables easier as you skim through the code.
+Similarly, the variables were defined as all capital letters for ease of identification.
+It may be worth noting that most commands are strictly lower case.
+\end{information}
+
+\subsubsection*{Understanding This Script}
+Note that after the shebang, there was a variable \texttt{FILE} which took the value \texttt{\$1}.
+This means that after we call the script, we specify a filename to assign to the variable \texttt{FILE}.
+For example, we could run the script as
+\begin{lstlisting}
+./exampleScript.sh ~/Documents/trainingData/seqData.fastq
+\end{lstlisting}
+This would execute the remainder of the script on that file.
+
+\begin{questions}
+What have we assigned to the variable \texttt{LENGTHS}?
+\begin{answer}
+This will give a vector with all of the unique values corresponding to the read lengths in the file
+\end{answer}
+
+What do you think the script will actually do?
+\begin{answer}
+Counts how many reads there of each specific length
+\end{answer}
+
+Where will the script send the output to?
+\begin{answer}
+stdout.
+\end{answer}
+
+How would we write the output to a file?
+\begin{answer}
+Use the $>$ symbol to assign it to a filename
+\end{answer}
+\end{questions}
+
+\begin{steps}
+Using the text editor \texttt{gedit} write this script \& save it as \texttt{findLengths.sh} in your home folder.
+\end{steps}
+
+\subsection{Changing File Permissions}
+\begin{steps}
+In the directory you have saved the script, enter the \texttt{ls -l} command.
+You should see the series of triplets we discussed this morning as \texttt{-rw-r-{}-r-{}-}, indicating that it is writeable by you only, but is readable by all users.
+Enter the command: \\
+\begin{lstlisting}
+chmod +x findLengths.sh
+\end{lstlisting}
+Now repeat the \texttt{ls -l} command and you will see that the third entry in every triplet is now \texttt{x} instead of \texttt{-}.
+This means that all users can now execute the file.
+It is now a live computer program just waiting to be run!
+If we wish to run it and we are in the same directory, we need to preface it with \texttt{./} to indicate that we are running it from this directory.
+This is a security measure to make it more difficult to automatically run a script from a folder.
+Lets run it on the file \texttt{seqData.fastq}, but don't forget to write the output  to a file.
+\end{steps}
+
+\begin{questions}
+Inspect the file using \texttt{gedit}, or the \texttt{less} pager.
+Did it look like you expected? 
+Is this a tab-separated file, or a comma or space separated file?
+\end{questions}
+
+\begin{bonus}
+Try running it on the \texttt{pair1.fq} \& \texttt{pair2.fq} files.
+\begin{questions}
+Is that what you expected?
+\begin{answer}
+All the reads should've been the same length...
+\end{answer}
+\end{questions}
+\end{bonus}
+
+\begin{note}
+Don't forget to look at \texttt{man chmod} to figure out what you did earlier.
+This is a little too complex to spend time with now, but will be important to learn sooner rather than later.
+\end{note}
+
+\clearpage
+\subsection*{A more complicated script}
+
+Here's a more complicated script with some more formal procedures.
+This is a script which will extract only the CDS features from the .gff file we have been working with, and export them to a separate file.
+Look through each line carefully \& make write down your understanding of what each line is asking the program to do.
+
 \begin{lstlisting}
 #!/bin/bash
 
 # Declare some helpful variables
-FILEDIR=~/nectar-workshop-template/examples/intro_ubuntu_2014/files
+FILEDIR=~/nectar-workshop-template/examples/intro_ubuntu_2015/files
 FILENAME=NC_015214.gff
 OUTFILE=NC_015214_CDS.txt
 
@@ -1227,15 +1374,11 @@ if [ -a ${FILENAME} ];
 fi
 \end{lstlisting}
 
-\begin{information}
-Note that in the above script every time the value of a variable was used, it was prefaced by the \$ symbol, and the name was enclosed in curly brackets.
-The \$ symbol is required, but the brackets are just a personal habit to make identification of variables easier as you skim through the code.
-Similarly, the variables were defined as all capital letters for ease of identification.
-It may be worth noting that most commands are strictly lower case.
-\end{information}
+Notice that this time we didn't require a file to be given to the script.
+We defined it within the script, as we did for the output file.
 
 \begin{information}
-The directory \& file checking stages were also of the form if [...].
+The directory \& file checking stages were of the form if [...].
 This is a curious command that checks for the presence of something. 
 The options -d \& -a specify a directory or file respectively.
 \end{information}
@@ -1254,30 +1397,9 @@ Now write this above script into the editor, but \textit{taking care to use the 
 Once you have written the script, save it \& close it.\\
 \end{steps}
 
-\subsection{Changing File Permissions}
-\begin{steps}
-In the directory you have saved the script, enter the \texttt{ls -l} command.
-You should see the series of triplets we discussed this morning as \texttt{-rw-r-{}-r-{}-}, indicating that it is writeable by you only, but is readable by all users.
-Enter the command: \\
-\begin{lstlisting}
-chmod +x extract_CDS.sh
-\end{lstlisting}
-Now repeat the \texttt{ls -l} command and you will see that the third entry in every triplet is now \texttt{x} instead of \texttt{-}.
-This means that all users can now execute the file.
-It is now a live computer program just waiting to be run.
-Run it using the command: \\
-\begin{lstlisting}
-./extract_CDS.sh
-\end{lstlisting}
-\end{steps}
-
-\begin{note}
-Don't forget to look at \texttt{man chmod} to figure out what you did earlier.
-This is a little too complex to spend time with now, but will be important to learn sooner rather than later.
-\end{note}
 
 \section{Some Challenges}
-Now that we have written our first script, the challenge for the rest of the session will to be create your own script from scratch.
+Now that we have written our first couple of scripts, the challenge for the rest of the session will to be create your own script from scratch.
 You can use the gedit text editor for this \& it will automatically colour code as you go, which can be very helpful for seeing where you are as you write code.
 
 \begin{steps}
