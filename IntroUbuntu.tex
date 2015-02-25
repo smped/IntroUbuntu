@@ -636,7 +636,7 @@ In the next section of the workshop, we will learn how to search within a file u
 \section{Introduction}
 Regular expressions are a powerful \& flexible way of searching for text strings amongst a large document or file.
 Most of us are familiar with searching for a word within a file, but regular expressions allow us to search for these with more flexibility, particularly in the context of genomics.
-Instead of searching strictly for a word or text string, we can search using less strict matches.
+Instead of searching strictly for a word or text string, we can search using less strict matching criteria.
 For example, we could search for a sequence that is either \texttt{AGT} or \texttt{ACT} by using the patterns  \texttt{A[GC]T} or  \texttt{A(G|C)T}.
 These two patterns will search for an  \texttt{A}, followed by either a  \texttt{G} or  \texttt{C}, then followed strictly by a  \texttt{T}.
 Similarly a match to \texttt{ANNT} can be found by using the patterns \texttt{A[AGCT][AGCT]T} or  \texttt{A[AGCT]\{2\}T}. \\
@@ -739,6 +739,11 @@ grep -EwC2 'louse' words
 grep -c 'louse' words
 \end{lstlisting}
 \end{steps}
+
+\begin{information}
+In most of the above commands we used the option \texttt{-E} to specify the extended version of \texttt{grep}.
+An alternative to this is to use the command \texttt{egrep}, which is the same as \texttt{grep -E}.
+\end{information}
 
 \section{Pattern Matching in DNA sequences}
 Now we can have a look through the RAD-Seq file that we moved \& renamed earlier.
