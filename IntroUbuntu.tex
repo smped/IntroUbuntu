@@ -7,6 +7,8 @@
 \usepackage{url}
 \usepackage{underscore}
 \usepackage{color}
+\definecolor{light-blue}{rgb}{0.8,0.85,1}
+%\usepackage[usenames,dvipsnames]{xcolor}
 
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
@@ -16,8 +18,8 @@
 
 % Set some Workshop specific info
 \setWorkshopTitle{Introduction To Linux/Ubuntu \& Shell Scripting}
-\setWorkshopVenue{Adelaide, South Australa}
-\setWorkshopDate{October 2014}
+\setWorkshopVenue{Adelaide, South Australia}
+\setWorkshopDate{\today}
 \setWorkshopAuthor{Steve Pederson\\
 Bioinformatics Centre\\
 University Of Adelaide}
@@ -106,9 +108,15 @@ NoMachine client. \\
     \includegraphics[width=0.8\textwidth]{NoMachine}
 \end{figure}
 
+\begin{warning}
 While this is connecting, select the button circled in blue above.
 This will resize NoMachine to be full screen to feel more like you are physically located at the VM.
 If any security warnings appear, ignore them \& continue connecting.
+This may take several attempts and if you can't connect after 3 or 4 times, call a tutor over.
+\end{warning}
+
+If you forgot to set the client to full screen, hover your mouse over the top-right corner and click where the `page' folds over. 
+This will enable you to resize the client again, and can also be used to disconnect from the VM.
 
 
 \section{The Ubuntu Desktop}
@@ -124,6 +132,8 @@ This is where links can be found to open Document Viewer (a .pdf viewer), Libre 
 
 The two main interfaces we will be using today are the \texttt{terminal} and a text editor named \texttt{gedit}.
 They will appear as icons on the desktop, but can also be accessed from the drop-down menus.
+
+\texttt{Firefox} can also be accessed from the terminal using the command \texttt{firefox},  by clicking the desktop icon, or from the drop-down menu in the top left.
 \end{note}
 
 \clearpage
@@ -142,7 +152,7 @@ Good candidate examples for command-line analysis are:
 \begin{itemize}
 \item Files that are too large to open on your computer using a text editor or Excel
 \item Manipulations of data which are repetitive or laborious to perform manually
-\item Any analysis that is different from what is available in programs with graphical interfaces.
+\item Any analysis that is different from what is available in programs with graphical interfaces (i.e. GUIs).
 \end{itemize}  
 
 \clearpage
@@ -150,8 +160,16 @@ Good candidate examples for command-line analysis are:
 \begin{information}
 Firstly we need to open a terminal, so either click on the terminal icon on the desktop, or go to \textit{Applications \textgreater Accessories \textgreater Terminal} on the drop-down menu at the top-left of your screen.
 You will notice the text \texttt{trainee@intro-ubuntu-XXX:\~{}\$} where \texttt{trainee} is the username that we have assigned to you, and \texttt{intro-ubuntu-XXX} indicates which virtual machine you have been assigned to.
-The tilde is actually your current directory (see below), whilst the dollar sign just indicates the end of the address \& the beginning of where you will type commands. \\
+The tilde represents your current directory (see below), whilst the dollar sign just indicates the end of the address \& the beginning of where you will type commands. \\
 \end{information}
+
+\begin{note}
+The terminal has a library of commands which are built into it at the time of installing the operating system, and which are part of the Bourne-again Shell, or \textit{bash}.
+(Historically, it's a replacement for the earlier Bourne Shell, written by Stephen Bourne, so the name is actually a hilarious pun.)
+We'll explore a few of these commands below, and the word shell will often be used interchangeably with the terminal window.
+Our apologies to any purists.
+If you've ever heard of the phrase \textit{shell scripts}, this refers to a series of these commands strung together into a text file which is then able to be run as a single command.
+\end{note}
 
 \subsection{Where are we?}
 \begin{steps}
@@ -164,22 +182,22 @@ This is what will be referred to as your \textit{home directory} for the remaind
 This is also the information that the tilde represents as a shorthand version, so whenever you see the tilde in a directory path, this is interpreted as meaning \texttt{/home/trainee}. \\
 \end{steps}
 
-\begin{warning}
-\Large{Note for Mac Users Only:}\\
-\normalsize{In the following code fragments, the Mac font coding system may change the tilde (\~{}) to an exclamation point (!).
-This seems unavoidable \& inexplicable so if you are viewing, or have printed these notes using a Mac, wherever you see an exclamation mark in a code fragment, please interpret this as a tilde.}
-\end{warning}
+%\begin{warning}
+%\Large{Note for Mac Users Only:}\\
+%\normalsize{In the following code fragments, the Mac font coding system may change the tilde (\~{}) to an exclamation point (!).
+%This seems unavoidable \& inexplicable so if you are viewing, or have printed these notes using a Mac, wherever you see an exclamation mark in a code fragment, please interpret this as a tilde.}
+%\end{warning}
 
 \begin{information}
 In the above command, the home directory began with a slash, i.e. \texttt{/}.
 On a Linux-based system, this is considered to be the root directory of the file system. 
 Windows users would be more familiar with seeing \texttt{C:\textbackslash} as the root of the drive, and this is an important difference in the two directory structures.
-Note also that whilst Windows uses the backslash (\textbackslash) to indicate a new directory, a Linux-based system uses the forward slash (/), or more commonly just referred to simply as ``slash'', marking another key difference between the two. \\
+Note also that whilst Windows uses the backslash (\textbackslash) to indicate a new directory, a Linux-based system uses the forward slash (/), or more commonly just referred to simply as ``slash'', marking another but very important difference between the two. \\
 \end{information}
 
 \begin{warning}
 Although we haven't directly discovered it yet, a Linux-based file system such as Ubuntu or Mac OS-X is also \textit{case-sensitive}, whilst Windows is not.
-For example, the command \texttt{PWD} is completely different to \texttt{pwd} and if \texttt{PWD} is defined in your shell, you will most likely get completely different results than from the intended \texttt{pwd} command.
+For example, the command \texttt{PWD} is completely different to \texttt{pwd} and if \texttt{PWD} is the name of a command which has been defined in your shell, you will get completely different results than from the intended \texttt{pwd} command.
 \end{warning}
 
 \subsection{Changing Directories}
@@ -188,7 +206,7 @@ The command \texttt{pwd} is an example of a \textit{command} that is built into 
 Another built-in command is \texttt{cd} which we use to \textbf{\underline{c}}hange \textbf{\underline{d}}irectory.
 No matter where we are in a file system, we can move up a directory in the hierarchy by using the command 
 \begin{lstlisting}
-cd ../
+cd ..
 \end{lstlisting}
 The string ``\texttt{..}'' is the convention for ``\textit{one directory above}'', whilst a single dot represents the current directory. \\
 \end{information}
@@ -196,7 +214,7 @@ The string ``\texttt{..}'' is the convention for ``\textit{one directory above}'
 \begin{steps}
 Enter the above command and notice that the location immediately to the left of the \$ is now given as \texttt{/home}.
 This is also what will be given as the output if we enter the command \texttt{pwd}.
-If we now enter \texttt{cd ../} one more time we will be in the root directory of the file system.
+If we now enter \texttt{cd ..} one more time we will be in the root directory of the file system.
 Try this and print the working directory again.
 As detailed earlier, the output should be the root directory given as \texttt{/}. \\
 \end{steps}
@@ -217,7 +235,9 @@ cd
 \end{steps}
 
 \begin{information}
-An \textit{absolute path} on Linux will always begin with the root directory symbol, e.g. \texttt{/path} would refer to a directory called \texttt{path} in the root directory of the file system.
+The approach taken above to move through the directories used what we refer to as a \textit{relative path}, where each move was made relative to the current directory.
+An \textit{absolute path} on Linux will always begin with the root directory symbol ``/".
+For example, \texttt{/path} would refer to a directory called \texttt{path} in the root directory of the file system.
 In contrast, a \textit{relative path} can begin with either the current directory (indicated by \texttt{./}) or a higher-level directory (indicated by \texttt{../} as mentioned above).
 A subdirectory \texttt{path} of the current directory could thus be specified as \texttt{./path}, whilst a subdirectory of the next higher directory would be specified by \texttt{../path}. 
 Another common relative path is the one mentioned right at the start of the session, specified with \~{}, which stands for your home directory.\\
@@ -230,8 +250,7 @@ cd ../../
 \end{lstlisting}
 
 \begin{steps}
-Using the above process, return to your home directory.
-\texttt{/home/trainee}. \\
+Using the above process, return to your home directory \texttt{/home/trainee}. \\
 \end{steps}
 
 \subsection{Looking at the Contents of a Directory}
@@ -253,7 +272,7 @@ ls /
 \end{steps}
 
 Here you can see a whole raft of directories which contain the vital information for the computer's operating system.
-Among them should be the \texttt{/home} directory which is one level above your own home directory. \\
+Among them should be the \texttt{/home} directory which is one level above your own home directory, and where the home directories for all users are located.\\
 
 \begin{questions}
  Try to think of two ways we could inspect the contents of the \texttt{/home} directory from your own home directory. \\
@@ -280,6 +299,7 @@ This can be a big time saver if you've typed a long command with a simple typo, 
 \begin{information}
 So far, the commands we have used were given either without the use of any subsequent arguments, e.g. \texttt{pwd} \& \texttt{ls}, or with a specific directory as the second argument, e.g. \texttt{cd ../} \& \texttt{ls /home}.
 Many commands have the additional capacity to specify different options as to how they perform, and these options are often specified between the command name, and the file being operated on.
+Options are commonly a single letter prefaced with a single dash, or a word prefaced with two dashes.
 The \texttt{ls} command can be given with the option \texttt{-l} specified between the command \& the directory.
 This options gives the output in what is known as \textit{long listing} format. \\
 \end{information}
@@ -294,8 +314,9 @@ ls -l ~
 The above will give three lines of output.
 The first line will be something similar to
 \begin{center}
-\colorbox{black}{\texttt{\textcolor{white}{drwxr-xr-x 2 trainee trainee 4096 mmm dd hh:mm} \textcolor{cyan}{\textbf{Desktop}}}}\\
+\colorbox{black}{\texttt{\textcolor{white}{drwxr-xr-x 2 trainee trainee 4096 mmm dd hh:mm} \textcolor{light-blue}{\textbf{Desktop}}}}\\
 \end{center}
+where \texttt{mmm dd hh:mm} are time and date information.
 
 \begin{information}
 The important thing to notice is that the word \textcolor{cyan}{\texttt{Desktop}} at the end of the line will be coloured \textcolor{cyan}{\textbf{blue}}, indicating that it is a directory.
@@ -304,7 +325,7 @@ Formally, these letter are known as flags which identify key attributes about ea
 We can ignore the fine detail in the rest of these flags until this afternoon (or see the bonus section), but the values \texttt{rwx} simply refer to who is able to \textbf{\underline{r}}ead, \textbf{\underline{w}}rite or e\textbf{\underline{x}}ecute the contents of the file or directory. 
 These are very helpful attributes for data security \& protection against malicious software.\\
 
-The entries \texttt{trainee trainee} respectively refer to who is the owner of the directory \& to which group it belongs.
+The entries \texttt{trainee trainee} respectively refer to who is the owner of the directory (or file) \& to which group it belongs.
 Again, this information won't be particularly relevant to us today, so we can ignore this until later in our programming careers.
 Finally, the value \texttt{4096} is the size of the directory structure in bytes, whilst the date \& time refer to when the directory was created.\\
 
@@ -377,7 +398,7 @@ Four options to try are: \\
 
 \begin{information}
 In order to help us find what options are able to be specified, every command built-in to the shell has a manual, or a help page which can take some time to get familiar with.
-These help pages are displayed using the pager known as \texttt{less} which will display text in the terminal window, without allowing us to edit the text. \\
+These help pages are displayed using the pager known as \texttt{less} which essentially turns the terminal window into a text viewer so we can display text in the terminal window, but with no capacity for us to edit the text. \\
 \end{information}
 
 \begin{steps}
@@ -385,8 +406,8 @@ To display the help page for \texttt{ls} enter the command \\
 \begin{lstlisting}
 man ls
 \end{lstlisting}
-As beforehand, the space between the two is important \& in the first word we are invoking the command \texttt{man} which then looks for the manual associated with the command \texttt{ls}.
-To navigate through the manual page, we need to know a few shortcuts which are part of the \texttt{less} pager, which allows us to view text but not edit it. \\
+As beforehand, the space between the two is important \& in the first word we are invoking the command \texttt{man} which then looks for the \textit{manual} associated with the command \texttt{ls}.
+To navigate through the manual page, we need to know a few shortcuts which are part of the \texttt{less} pager.. \\
 \end{steps}
 
 \begin{information}
@@ -438,15 +459,19 @@ man less
 This can look a little overwhelming, so try pressing \texttt{h} which will take you to a summary of the shortcut keys within \texttt{less}.
 There are a lot of them, so try out a few to jump through the file. \\
 
-A good one to experiment with would be to search for patterns within the displayed text by prefacing the pattern with a forward slash.
-Try searching for a common word like \textit{``the''} or \textit{``to''} to see how the function behaves, then try searching for something a bit more useful. \\
+A good one to experiment with would be to search for patterns within the displayed text by prefacing the pattern with a slash.
+Try searching for a common word like \textit{``the''} or \textit{``to''} to see how the function behaves, then try searching for something a bit more useful, like the word \textit{``move"}. \\
 \end{bonus}
 
 \subsection{Accessing Manuals or Help Pages}
 \begin{information}
 As well as entering the command \texttt{man} before the name of a command you need help with, you can often just enter the name of the command with the options \texttt{-h} or \texttt{-{}-help} specified.
 Note the convention of a single hyphen which indicates an individual letter will follow, or a double-hyphen which indicates that a word will follow.
-Unfortunately the methods can vary a little from command to command, so if one method doesn't get you the manual, just try one of the others. \\
+Unfortunately the methods can vary a little from command to command, so if one method doesn't get you the manual, just try one of the others.\\
+
+Sometimes it can take a little bit of looking to find something and it's important to be realise we won't break the computer or accidentally launch a nuclear bomb when we look around.
+It's very much like picking up a piece of paper to see what's under it.
+If you don't find something  at first, just keep looking and you'll find it eventually.\\
 \end{information}
 
 \begin{questions}
@@ -525,7 +550,7 @@ The next strike of the \texttt{\textless tab \textgreater} key asked the shell t
 
 This can be used to also find command names.
 Type in \texttt{he} followed by two strike of the \texttt{\textless tab \textgreater} key and it will show you all of the commands that being with the string \texttt{he}, such as \texttt{head}, \texttt{help} or any others that may be installed on your computer.
-If we'd hit the \texttt{\textless tab \textgreater} key after type \texttt{hea}, then the command \texttt{head} would have auto-completed, although obviously this wouldn't have saved you any typing.
+If we'd hit the \texttt{\textless tab \textgreater} key after typing \texttt{hea}, then the command \texttt{head} would have auto-completed, although clearly this wouldn't have saved you any typing.
 \end{information}
 
 \section{Putting It All Together}
@@ -572,14 +597,7 @@ wc -l ~/firstname/RADSeqReads1.fq
 \begin{note}
 For all the above commands we could have used the auto-complete
 feature of the bash terminal.
-Once you start typing the name of a file or directory, hit the
-\textless \texttt{tab}\textgreater key and it will auto-complete as far as it can go.
-For example, if you have two directories with one called
-\texttt{\~{}/Documents} and the other called \texttt{\~{}/Downloads},
-hitting \textless \texttt{tab}\textgreater ~after entering \texttt{\~{}/Doc} will auto-complete to \texttt{\~{}/Documents}. 
-However, hitting \textless \texttt{tab}\textgreater ~after typing \texttt{\~{}/Do} will
-do nothing as it won't be able to tell which directory you're
-intending to type.\\
+Did you remember this trick?
 \end{note}
 
 \begin{questions}
@@ -604,6 +622,7 @@ Although well beyond the scope of today, this could crudely be found using \\
 \texttt{echo \$((\$(wc -l < filename.fq) / 4))}\\
 although if there is a problem with the file, this will only give the number of sequences to an integer value.
 \end{answer}
+We'll find some different options for doing this later today.
 \end{questions}
 
 \begin{note}
