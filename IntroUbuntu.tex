@@ -133,7 +133,7 @@ This is where links can be found to open Document Viewer (a .pdf viewer), Libre 
 The two main interfaces we will be using today are the \texttt{terminal} and a text editor named \texttt{gedit}.
 They will appear as icons on the desktop, but can also be accessed from the drop-down menus.
 
-\texttt{Firefox} can also be accessed from the terminal using the command \texttt{firefox},  by clicking the desktop icon, or from the drop-down menu in the top left.
+\texttt{Firefox} can also be accessed from the terminal using the command \texttt{firefox \&},  by clicking the desktop icon, or from the drop-down menu in the top left.
 \end{note}
 
 \clearpage
@@ -154,6 +154,11 @@ Good candidate examples for command-line analysis are:
 \item Manipulations of data which are repetitive or laborious to perform manually
 \item Any analysis that is different from what is available in programs with graphical interfaces (i.e. GUIs).
 \end{itemize}  
+
+Today we'll explore a few commands to help you gain a little familiarity with some important ones, and to enable you to find help when you're working by yourself.
+We don't expect you to remember all the commands \& options from today.
+The important thing is to discover the basic syntax for commands, how to put them together, and where to look for help when you're unsure.
+
 
 \clearpage
 \section{Finding your way around}
@@ -181,12 +186,6 @@ The command \texttt{pwd} is what we use for \underline{\textbf{p}}rinting the cu
 This is what will be referred to as your \textit{home directory} for the remainder of the workshop.
 This is also the information that the tilde represents as a shorthand version, so whenever you see the tilde in a directory path, this is interpreted as meaning \texttt{/home/trainee}. \\
 \end{steps}
-
-%\begin{warning}
-%\Large{Note for Mac Users Only:}\\
-%\normalsize{In the following code fragments, the Mac font coding system may change the tilde (\~{}) to an exclamation point (!).
-%This seems unavoidable \& inexplicable so if you are viewing, or have printed these notes using a Mac, wherever you see an exclamation mark in a code fragment, please interpret this as a tilde.}
-%\end{warning}
 
 \begin{information}
 In the above command, the home directory began with a slash, i.e. \texttt{/}.
@@ -305,7 +304,8 @@ This options gives the output in what is known as \textit{long listing} format. 
 \end{information}
 
 \begin{steps}
-Inspect the contents of your home directory using the long listing format. \\
+Inspect the contents of your home directory using the long listing format. 
+Please make sure you can tell the difference between the characters \texttt{l \& 1}.\\
 \begin{lstlisting}
 ls -l ~
 \end{lstlisting}
@@ -380,17 +380,15 @@ The built-in shell commands are usually fine with this, but many NGS data proces
 \begin{warning}
 {\Huge Don't Panic!!!}\\
 It's easy for things to go wrong when working in the command-line, but if you've accidentally set something running which you need to exit or if you can't see the command prompt, there are some simple options for stopping a process \& getting you back on track.
-Four options to try are: \\
+Some options to try are: \\
 \begin{tabular}{p{4cm} p{8cm}}
 \centering
  & \\
- \texttt{q} & quit the current process \\
- \texttt{Ctrl-c} & kill the current job \\
- \texttt{Ctrl-d} & end of input \\
- \texttt{Ctrl-z} & pause the current job, however it will need to be
- killed later. See \texttt{man kill} or \texttt{man killall} for details on how to kill a process. \\
-
-\end{tabular}
+ \texttt{Ctrl-c} & kill the current job.
+  This is usually the first port of call when things go wrong. \\
+ \texttt{Ctrl-d} & end of input. Sometimes \texttt{Ctrl-c} doesn't work but this does. \\
+ \end{tabular}
+Also see \texttt{man kill} or \texttt{man killall} for details on how to kill a process. \\
 \end{warning}
 
 \clearpage
@@ -886,9 +884,7 @@ echo -e 'Hello\nWorld'
 We can also evaluate numerical expressions in the terminal window using the echo command, with the numerical expression prefaced by the dollar sign \& the expression enclosed in double brackets. \\
 \begin{lstlisting}
 echo $((1+2))
-echo $((10^2))
 \end{lstlisting}
-As you may have noticed, that last command didn't work as you might have expected, so always be vary careful performing these types of calculations.
 The standard arithmetic processes like addition, subtraction, division \& multiplication will work as expected, but most programmers don't really use this functionality terribly much.
 \end{steps}
 
@@ -1233,6 +1229,7 @@ Sometimes we can include lines in a script to remind ourselves what we're trying
 It's presence as a comment here, followed by the exclamation mark, is specifically looked for by the interpreter but beyond this specific occurrence, comment lines are generally ignored by scripts \& programs.
 \end{note}
 
+\clearpage
 \subsection{An Example Script}
 Let's now look at some simple scripts.
 These are really just examples of some useful things you can do \& may not really be the best scripts from a technical perspective.
@@ -1241,9 +1238,9 @@ Hopefully they give you some pointers so you can get going
 \begin{warning}
 Don't try to enter these commands directly in the terminal!!!
 They are designed to be placed in a script, which we will do in a minute.
+Just have a look through the following lines.
 \end{warning}
 
-\clearpage
 \begin{lstlisting}
 #!/bin/bash
 FILE=$1
