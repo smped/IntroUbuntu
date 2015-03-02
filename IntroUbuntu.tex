@@ -507,16 +507,18 @@ Have a look at the useful options \& try to understand what they will do if spec
 \texttt{cd} & Change directory & (scroll down in \texttt{man builtins} to find \texttt{cd}) \\ \hline
 \texttt{mv} & & -b, -f, -u \\ \hline
 \texttt{cp} & & -b, -f, -u \\ \hline
+\texttt{rm} & & -r (careful...) \\ \hline
 \texttt{rmdir} & & \\ \hline
 \texttt{mkdir} & & \\ \hline
-\texttt{rm} & & -r (careful...) \\ \hline
 \texttt{cat} & & \\ \hline
 \texttt{less} & & \\ \hline
 \texttt{wc} & & -l \\ \hline
 \texttt{head} & & -n\# (e.g., -n100) \\ \hline
 \texttt{tail} & & -n\# (e.g., -n100) \\ \hline
-\texttt{echo} & & \\ \hline
-\texttt{passwd} & & \\ \hline
+\texttt{echo} & &  -e\\ \hline
+\texttt{cut} & & -d, -f, -s \\ \hline
+\texttt{sort} & & \\ \hline
+\texttt{uniq} & & \\ \hline
 \end{tabular}
 \end{center}
 \end{steps}
@@ -1089,7 +1091,7 @@ If you see file name suffixes like .tar, .zip, .gz, and/or .bz2, among others, t
 You can use the commands tar, gzip, and bzip2 (look at the man pages or -{}-help option), e.g. tar -xvzf archive.tar.gz
 \end{information}
 
-\chapter{Writing Shell Scripts}
+\chapter{Writing Scripts}
 Sometimes we need to perform repetitive tasks on multiple files, or need to perform complex series of tasks and writing the set of instructions as a script is a very powerful way of performing these tasks.
 They are also an excellent way of ensuring the commands you have used in your research are retained for future reference.
 Keeping copies of all electronic processes to ensure reproducibility is a very important component of any research. 
@@ -1218,9 +1220,8 @@ Every bash shell script begins with what is known as a \textit{shebang}, which w
 This is immediately followed by \texttt{/bin/bash}, which tells the interpreter to run the command \texttt{bash } in the directory \texttt{/bin}.
 This opening sequence is vital \& tells the computer how to respond to all of the following commands.
 As a string this looks like:\\
-\begin{lstlisting}
-#!/bin/bash
-\end{lstlisting}
+
+\texttt{\#!/bin/bash}\\
 \end{information}
 
 \begin{note}
@@ -1229,16 +1230,19 @@ Sometimes we can include lines in a script to remind ourselves what we're trying
 It's presence as a comment here, followed by the exclamation mark, is specifically looked for by the interpreter but beyond this specific occurrence, comment lines are generally ignored by scripts \& programs.
 \end{note}
 
-\clearpage
 \subsection{An Example Script}
 Let's now look at some simple scripts.
 These are really just examples of some useful things you can do \& may not really be the best scripts from a technical perspective.
 Hopefully they give you some pointers so you can get going
 
+\clearpage
 \begin{warning}
 Don't try to enter these commands directly in the terminal!!!
-They are designed to be placed in a script, which we will do in a minute.
-Just have a look through the following lines.
+They are designed to be placed in a script which we will do after we've inspected the contents of the script (see next page).
+First, let's just have a look through the script \& make sure we understand what the script is doing.
+
+Also remember that long lines of code are broken into new lines on your page by the `\textbackslash ' character.
+Note that the line numbers on the left of the code don't change when this happens, e.g. line 9.
 \end{warning}
 
 \begin{lstlisting}
@@ -1257,7 +1261,7 @@ done
 
 \begin{information}
 Note that in the above script every time the value of a variable was used, it was prefaced by the \$ symbol, and the name was enclosed in curly brackets.
-The \$ symbol is required to identify a variable, but the brackets are just a personal habit to make identification of variables easier as you skim through the code.
+The \$ symbol is essential to identify a variable as opposed to a normal text character, but the brackets are just a personal habit to make identification of variables easier as you skim through the code.
 Similarly, the variables were defined as all capital letters for ease of identification.
 It may be worth noting that most commands are strictly lower case.
 \end{information}
@@ -1265,11 +1269,13 @@ It may be worth noting that most commands are strictly lower case.
 \subsubsection*{Understanding This Script}
 Note that after the shebang, there was a variable \texttt{FILE} which took the value \texttt{\$1}.
 This means that after we call the script, we specify a filename to assign to the variable \texttt{FILE}.
-For example, we could run the script as
-\begin{lstlisting}
-./exampleScript.sh ~/Documents/trainingData/seqData.fastq
-\end{lstlisting}
-This would execute the remainder of the script on that file.
+For example, we could run the script as: \\
+\texttt{./scriptName.sh ~/Documents/trainingData/seqData.fastq}.\\
+This would execute the remainder of the script on that file. \\
+
+\begin{steps}
+Now use the text editor \texttt{gedit} to write this script \& save it as \texttt{findLengths.sh} in your home folder.
+\end{steps}
 
 \begin{questions}
 What have we assigned to the variable \texttt{LENGTHS}?
@@ -1292,10 +1298,6 @@ How would we write the output to a file?
 Use the $>$ symbol to assign it to a filename
 \end{answer}
 \end{questions}
-
-\begin{steps}
-Using the text editor \texttt{gedit} write this script \& save it as \texttt{findLengths.sh} in your home folder.
-\end{steps}
 
 \subsection{Changing File Permissions}
 \begin{steps}
