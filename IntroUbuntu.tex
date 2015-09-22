@@ -198,7 +198,7 @@ pwd
 The command \texttt{pwd} is what we use for \underline{\textbf{p}}rinting the current (i.e. \underline{\textbf{w}}orking) \underline{\textbf{d}}irectory.
 Printing in this context means to print some information to the terminal, as opposed to a physical printer.
 This style of printing harks back to the days when laser printers were not commonplace.
-Printing information to the terminal itself is what we refer to as printing to the \textit{standard output} or \textit{stdout}.
+Printing information to the terminal itself is what we refer to as printing to the \textit{standard output} or \texttt{stdout}.
 \end{information}
 
 \begin{note}
@@ -844,37 +844,8 @@ How could you find the sequence identifier for the above match?\\
 
 \chapter{More Command Line Tips \& Tricks}
 
-\section{Redirection Using The Pipe Symbol}
-\begin{information}
-Sometimes we need to build up our series of commands \& send the results of one to another.
-The ``pipe'' symbol (|) is the way we do this \& it can literally be taken as placing the output from one command into a pipe \& redirecting it somewhere new.
-\end{information}
-\begin{steps}
-As a simple example, we could take the output from an \texttt{ls} command \& send it to the pager \texttt{less}.
-\end{steps}
-\begin{lstlisting}
-ls -lh /usr/bin | less
-\end{lstlisting}
-Page through the output until you get bored, then hit \texttt{q} to quit.
-
-\section{Sending Output To A File}
-\begin{information}
-So far, the only output we have seen has been in the terminal, which is known as the \textit{standard output}, or \textit{stdout} for short.
-Similar to the pipe command, we can redirect the output of a command to a file instead of to standard output, and we do this using the greater than symbol (\textgreater), which we can almost envisage as an arrow.
-\end{information}
-
-\begin{steps}
-To collect a list of the sequence identifiers in our set of RAD-seq reads \& write these to a file, we could use the command as above, but instead of directing the output to the terminal, we could write this to a file.
-\end{steps}
-\begin{lstlisting}
-grep -E '^@.+_1' ~/firstname/myReads1.fq > SeqIDs.txt
-less SeqIDs.txt
-\end{lstlisting}
-
-Once you've had a quick look at the file, exit the less pager and delete the file using the \texttt{rm} command.
-
 \section{Text In the Terminal}
-We can display a line of text in \textit{stdout} by using the command \texttt{echo}.
+We can display a line of text in \texttt{stdout} by using the command \texttt{echo}.
 The most simple function that people learn to write in most languages is called \texttt{Hello World} and we'll do the same thing today.
 \begin{steps}
 \begin{lstlisting}
@@ -901,13 +872,65 @@ echo -e 'Hello\nWorld'
 \end{lstlisting}
 \end{steps}
 
+%\begin{steps}
+%We can also evaluate numerical expressions in the terminal window using the echo command, with the numerical expression prefaced by the dollar sign \& the expression enclosed in double brackets. \\
+%\begin{lstlisting}
+%echo $((1+2))
+%\end{lstlisting}
+%The standard arithmetic processes like addition, subtraction, division \& multiplication will work as expected, but most programmers don't really use this functionality terribly much.
+%\end{steps}
+
+\section{Redirection Using The Pipe Symbol}
+\begin{information}
+A very common process in the command line is to take the output of one process and send it to another.
+For example, we might want to cut a column from a csv file with categorical information, and then send that field to have the different categories counted by another tool.
+This is where the concept of \texttt{stdout} becomes more important. \\
+\end{information}
+
 \begin{steps}
-We can also evaluate numerical expressions in the terminal window using the echo command, with the numerical expression prefaced by the dollar sign \& the expression enclosed in double brackets. \\
+By default, most command-line tools print their output to \texttt{stdout} but instead, we can send this to another tool using the pipe (|) symbol.
+This is exactly like putting a pipe on the output of one process, and routing it to the \textit{standard input} or \texttt{stdin} of another.
+We can use this to build up a series or chain of processes in a single line.
+A trivial example might be match a word segment.
 \begin{lstlisting}
-echo $((1+2))
+echo "Hello There" | egrep "Hell"
 \end{lstlisting}
-The standard arithmetic processes like addition, subtraction, division \& multiplication will work as expected, but most programmers don't really use this functionality terribly much.
 \end{steps}
+
+\begin{information}
+Note that we didn't give a file to egrep to work with in the above.
+It took the \texttt{stdout} from the command \texttt{echo} as it's input via \texttt{stdin}.
+This is how the pipe will work on virtually all occasions.
+\end{information}
+
+\begin{steps}
+As another simple example, we could take the output from an \texttt{ls} command \& send it to the pager \texttt{less}.
+\begin{lstlisting}
+ls -lh /usr/bin | less
+\end{lstlisting}
+Page through the output until you get bored, then hit \texttt{q} to quit.
+\end{steps}
+
+\section{Sending Output To A File}
+\begin{information}
+So far, the only output we have seen has been in the terminal, i.e  \texttt{stdout}.
+Similar to the pipe command, we can redirect the output of a command \textbf{to a file} instead of to standard output, and we do this using the greater than symbol (\textgreater), which we can almost envisage as an arrow.
+\end{information}
+
+\begin{steps}
+To see this in action, we'll collect a list of the sequence identifiers in our set of RAD-seq reads \& write these to a file, we could use the command as above, but instead of directing the output to the terminal, we could write this to a file.
+\end{steps}
+\begin{lstlisting}
+cd ~/firstname
+grep -E '^@.+_1' myReads1.fq > SeqIDs.txt
+less SeqIDs.txt
+\end{lstlisting}
+
+Once you've had a quick look at the file, exit the less pager and delete the file using the \texttt{rm} command.
+\begin{lstlisting}
+rm SeqIDs.txt
+\end{lstlisting}
+
 
 \section{sed: The Stream Editor}
 \begin{information}
@@ -915,7 +938,8 @@ One very useful command in the terminal is \texttt{sed}, which is short for \tex
 Instead of the \texttt{man} page for \texttt{sed} the \texttt{info sed} page is larger but a little easier to digest.
 This is a very powerful command which can be a little overwhelming at first.
 If using this for your own scripts \& you can't figure something out, remember ``Google is your friend'' \& sites like \url{www.stackoverflow.com} are full of people wrestling with similar problems to you.
-These are great places to start looking for help \& even advanced programmers use these tools. \\
+You can be certain you're not the first person to be stumped by a problem \& these are great places to start looking for help. 
+Even advanced programmers use google \& stackoverflow to find solutions.\\
 \end{information}
 
 For today, there are two key \texttt{sed} functionalities that we want to introduce.\\
@@ -927,45 +951,55 @@ For today, there are two key \texttt{sed} functionalities that we want to introd
 \subsection*{Altering a file or other input}
 \texttt{sed} uses \textit{regular expressions} that we have come across under the \texttt{grep} section, and we can use these to replace strings or characters within a text string.
 The command works in the form \texttt{sed `SCRIPT' INPUT}, and the script section is where all the action happens.
-Input can be given to \texttt{sed} as either a file, or just as a text stream via the \textit{pipe} that we have already introduced.
+Input can be given to \texttt{sed} as either a file, or just as a text stream via \texttt{stdin} using the \textit{pipe} symbol that we have already introduced.
 
 \begin{steps}
-In the following example the script begins with an `s' to indicate that we are going to make a substitution.
+In the following example the script section begins with an `s' to indicate that we are going to make a substitution.
 The beginning of the first pattern (i.e. the \textit{regexp} we are searching for) is denoted with the backslash, with the identical delimiter indicating the replacement pattern, and this is in turn completed with the same delimiter.
 Try this simple example from the link \url{http://www.grymoire.com/Unix/Sed.html} which is a very detailed \& helpful resource about the usage \texttt{sed}.
 Here we are sending the input to the command via the pipe, so no `INPUT' section is required: \\
+\end{steps}
+
 \begin{lstlisting}
 echo Sunday | sed 's/day/night/' 
 \end{lstlisting}
+
 Here you are passing \texttt{sed} the string Sunday, and \texttt{sed} takes day and turns it into night.  
 \texttt{sed} will only replace the first instance of the string on any line, so try: \\
+
 \begin{lstlisting}
 echo Sundayday | sed 's/day/night/' 
 \end{lstlisting}
-It only replaced the first instance of day and left the second.  You can make it 'global', where it switches every instance by using the `g' option at the end of the pattern like this: \\
+
+Note that it only replaced the first instance of day and left the second.  
+However, you can make it 'global', where it switches every instance by using the `g' option at the end of the pattern like this: \\
+
 \begin{lstlisting}
 echo Sundayday | sed 's/day/night/g' 
 \end{lstlisting}
-You can `capture' parts of the pattern in parentheses and access that in the second part of the regular expression (what you are switching to) using \textbackslash 1, \textbackslash 2, etc., to denoted the number of the captured string.
-If you want to match `ATGNNNTGA', where N is any base, and just output these three bases you could try the following
+
+You can also `capture' parts of the pattern in parentheses and access that in the second part of the regular expression (what you are switching to) using \textbackslash 1, \textbackslash 2, etc., to denoted the number of the captured string, in the order they were captured.
+If you want to match `ATGNNNTGA', where N is any base, and just output these three bases you could try the following:\\
 \begin{lstlisting}
 echo 'ATGCCAGTA' | sed -r 's/ATG(.{3})GTA/\1/g'
 \end{lstlisting}
+
 Or if we needed to replace those three bases with an expanded repeat of them, you could do the following where we capture the undefined string between \texttt{ATG} \& \texttt{GTA}, and expand it: \\
 \begin{lstlisting}
 echo 'ATGCCAGTA' | sed -r 's/ATG(.{3})GTA/ATG\1\1\1GTA/g'
 \end{lstlisting}
+
 The \textbackslash 1 take the contents of the first parenthesis and uses it in the substitution, even though you don't know what the bases are.
 Note that the `-r' option was set for these operations, which turns on extended regular expression capabilities.
 This can be a powerful tool \& multiple parentheses can also be used: \\
 \begin{lstlisting}
 echo 'ATGCCAGTA' | sed -r 's/(ATG)(.{3})(GTA)/\3\2\2\1/g'
 \end{lstlisting}
-In this command we switched the order of the first \& last triplet, and expanded the middle unknown string twice.
+
+In this last command we switched the order of the first \& last triplet, and expanded the middle unknown string twice.
 Note how quickly this starts to look confusing though!
 Taking care to be clear when writing these types of procedures can be an important idea when you have to go back \& re-read your code a year or two later.
 (Yes this will happen a lot!!!)
-\end{steps}
 
 \begin{information}
 The use of backslashes to delineate each section of the script used by \texttt{sed} is the most common convention, but we are not restricted to it.
