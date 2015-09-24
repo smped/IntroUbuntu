@@ -1,0 +1,117 @@
+\documentclass[11pt]{beamer}
+\usetheme{Singapore}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\usepackage{setspace}% http://ctan.org/pkg/setspace
+\let\oldframetitle\frametitle% Store old \frametitle in \oldframetitle
+\renewcommand{\frametitle}[1]{% Redefine \frametitle
+  \oldframetitle{#1}\setstretch{2}}
+
+\author{Steve Pederson\\
+Bioinformatics Hub\\
+Level 4, Santos Petroleum Engineering Building}
+\title{Introduction To Linux/Ubuntu \& Shell Scripting}
+%\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+\institute{University of Adelaide} 
+%\date{} 
+%\subject{} 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\begin{frame}
+%\tableofcontents
+%\end{frame}
+
+\begin{frame}
+\frametitle{Why use the command line?}
+\begin{itemize}
+\item Reproducible Research!!!
+\item Science is littered with retractions as a result of GUI mistakes
+\item Nothing is forgotten \& you can find any errors
+\item You better understand every process you've done
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Why use the command line?}
+\begin{itemize}
+\item We can investigate \& manage huge files
+\item Can automate downloads
+\item eRSA HPC nodes require basic scripting skills
+\item And much more...
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Today's Topics}
+\begin{enumerate}
+\item We'll start very simple with copying files, making directories etc, how do we access internal help pages...
+\item \textit{Regular Expressions} for text searching
+\item Important techniques for working with files
+\item Two useful tools: \texttt{sed} \& \texttt{awk}
+\item Writing \textit{Shell Scripts}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{The Virtual Machines}
+\begin{itemize}
+\item You each have a personal but identical VM
+\item Will be the same machines as next week
+\item Located on the Nectar node in SA (at Thebarton)
+\item Will be active for about a month
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The Virtual Machines}
+\textbf{Please hit ``Don't Upgrade"}
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.7\textwidth]{images/upgrade.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Today's Schedule}
+\begin{itemize}
+  \item Loosely 10am-1pm then roughly 2pm-5pm
+  \item Today is very much self-guided, working at your own pace
+  \item Grab a coffee when you need
+  \item Ask lots of questions
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Most common problems}
+
+\begin{itemize}
+\item You can't tell the letter `\texttt{l}' from the number `\texttt{1}'
+\item Long lines of code are broken \textbf{on your page only} by the symbol \textbackslash
+\item There may be a missing \~{} symbol at the start of a file path (Sorry...)
+\item Always, always, always use ``Tab auto-complete"
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Today's Tutors}
+\begin{itemize}
+	\item Steve Pederson (Bioinformatics Hub, Adelaide University)
+	\item Dr John Toubia (Centre For Cancer Biology)
+	\item Members of A/Prof Ville-Petteri Makinen's Group (SAHMRI)
+	\item Dr Terry Bertozzi (SA Museum)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Login for External Attendees}
+WiFi Network: UofA \\
+user: bioinfhub \\
+pass: u\$hs7oaigs
+
+\end{frame}
+
+\end{document}
